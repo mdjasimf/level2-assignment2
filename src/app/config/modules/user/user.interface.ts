@@ -1,3 +1,5 @@
+import { Model } from 'mongoose';
+
 export type fullName = {
   firstName: string;
   lastName: string;
@@ -15,7 +17,11 @@ export type IUser = {
   fullName: fullName;
   age: number;
   email: string;
-  isActive: 'active' | 'blocked';
-  hobbies: 'cricket' | 'football' | 'gardening';
+  isActive: boolean;
+  hobbies: 'cricket' | 'football';
   address: Address;
 };
+
+export interface UserModels extends Model<IUser> {
+  isUserExists(userId: number): Promise<IUser | null>;
+}
