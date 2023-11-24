@@ -1,5 +1,5 @@
 import { Schema, model } from 'mongoose';
-import { Address, IUser, UserModels, fullName } from './user.interface';
+import { Address, IUser, Order, UserModels, fullName } from './user.interface';
 import bcrypt from 'bcrypt';
 import config from '../..';
 
@@ -19,7 +19,7 @@ const userFullNameSchema = new Schema<fullName>({
   },
   lastName: {
     type: String,
-    require: [true, 'last Name is require'],
+    required: [true, 'last Name is require'],
     trim: true,
     minlength: [3, 'last Name is required at least 3'],
   },
@@ -28,6 +28,12 @@ const userAddressSchema = new Schema<Address>({
   street: { type: String, trim: true, required: [true, 'street is require'] },
   city: { type: String, trim: true, required: [true, 'city is require'] },
   country: { type: String, required: [true, 'country is require'] },
+});
+
+const orderSchema = new Schema<Order>({
+  productName: { type: String, required: [true, 'last Name is require'] },
+  price: { type: Number, required: [true, 'age is require'] },
+  quantity: { type: Number, required: [true, 'age is require'] },
 });
 
 const userSchema = new Schema<IUser, UserModels>({
@@ -69,6 +75,7 @@ const userSchema = new Schema<IUser, UserModels>({
     trim: true,
   },
   address: userAddressSchema,
+  orders: [orderSchema],
 });
 userSchema.pre('save', async function (next) {
   // eslint-disable-next-line @typescript-eslint/no-this-alias

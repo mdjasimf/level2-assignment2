@@ -1,4 +1,4 @@
-import { Model } from 'mongoose';
+import { Model, Schema } from 'mongoose';
 
 export type fullName = {
   firstName: string;
@@ -8,6 +8,11 @@ export type Address = {
   street: string;
   city: string;
   country: string;
+};
+export type Order = {
+  productName?: string;
+  price?: number;
+  quantity?: number;
 };
 
 export type IUser = {
@@ -20,6 +25,7 @@ export type IUser = {
   isActive: boolean;
   hobbies: 'cricket' | 'football';
   address: Address;
+  orders?: Order[];
 };
 
 export interface UserModels extends Model<IUser> {

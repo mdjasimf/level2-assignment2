@@ -121,6 +121,33 @@ const updateUser = async (req: Request, res: Response) => {
     });
   }
 };
+const createOrder = async (req: Request, res: Response) => {
+  try {
+    const user = req.body;
+    const userId = req.params.userId;
+    const result = await userServices.createOrder(userId, user);
+    if (result) {
+      res.status(200).json({
+        status: true,
+        message: 'User updated successfully',
+        data: result,
+      });
+    } else {
+      res.status(404).json({
+        success: false,
+        message: 'User not found!',
+        data: null,
+      });
+    }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (err: any) {
+    res.status(500).json({
+      success: false,
+      message: err.message || 'something went wrong',
+      error: err,
+    });
+  }
+};
 
 export const userControllers = {
   createUser,
@@ -128,4 +155,5 @@ export const userControllers = {
   getSingleUser,
   deleteUser,
   updateUser,
+  createOrder,
 };

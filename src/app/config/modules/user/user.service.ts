@@ -17,7 +17,7 @@ const getSingleUserFromDB = async (userId: number) => {
   if (await userModel.isUserExists(userId)) {
     const result = await userModel.findOne(
       { userId },
-      { new: true, projection: { password: 0 } },
+      // { new: true, projection: { password: 0 } },
     );
     return result;
   }
@@ -38,10 +38,21 @@ const updateUser = async (userId: number, user: IUser) => {
     return result;
   }
 };
+const createOrder = async (userId: number, user: IUser) => {
+  if (await userModel.isUserExists(userId)) {
+    const result = await userModel.findOneAndUpdate(
+      { userId: userId },
+      { $push: { orders: user } },
+      { new: true, projection: { password: 0 } },
+    );
+    return result;
+  }
+};
 export const userServices = {
   createUserIntoDB,
   getAllUserFromDB,
   getSingleUserFromDB,
   deleteUserFromDB,
   updateUser,
+  createOrder,
 };
