@@ -14,22 +14,29 @@ const getAllUserFromDB = async () => {
   return result;
 };
 const getSingleUserFromDB = async (userId: number) => {
-  const result = await userModel.findOne({ userId });
-  return result;
+  if (await userModel.isUserExists(userId)) {
+    const result = await userModel.findOne(
+      { userId },
+      { new: true, projection: { password: 0 } },
+    );
+    return result;
+  }
 };
 const deleteUserFromDB = async (userId: number) => {
-  const result = await userModel.deleteOne({ userId });
-  return result;
+  if (await userModel.isUserExists(userId)) {
+    const result = await userModel.deleteOne({ userId });
+    return result;
+  }
 };
-const updateUser = async (
-  userId: number,
-  userData: IUser,
-): Promise<IUser | null> => {
-  const result = await userModel.findByIdAndUpdate(userId, userData, {
-    new: true,
-    runValidators: true,
-  });
-  return result;
+const updateUser = async (userId: number, user: IUser) => {
+  if (await userModel.isUserExists(userId)) {
+    const result = await userModel.findOneAndUpdate(
+      { userId: userId },
+      { $set: user },
+      { new: true, projection: { password: 0 } },
+    );
+    return result;
+  }
 };
 export const userServices = {
   createUserIntoDB,
