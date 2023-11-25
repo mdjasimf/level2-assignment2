@@ -23,7 +23,7 @@ export type IUser = {
   age: number;
   email: string;
   isActive: boolean;
-  hobbies: 'cricket' | 'football';
+  hobbies: string[];
   address: Address;
   orders?: Order[];
 };

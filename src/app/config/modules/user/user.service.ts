@@ -10,13 +10,14 @@ const createUserIntoDB = async (userData: IUser) => {
 };
 
 const getAllUserFromDB = async () => {
-  const result = await userModel.find();
+  const result = await userModel.find({}, { orders: 0, password: 0, __v: 0 });
   return result;
 };
 const getSingleUserFromDB = async (userId: number) => {
   if (await userModel.isUserExists(userId)) {
     const result = await userModel.findOne(
       { userId },
+      { password: 0, orders: 0, __v: 0 },
       // { new: true, projection: { password: 0 } },
     );
     return result;
@@ -48,9 +49,11 @@ const createOrder = async (userId: number, user: IUser) => {
     return result;
   }
 };
-const getAllOrderFromDB = async () => {
-  const result = await userModel.find();
-  return result;
+const getAllOrderFromDB = async (userId: number) => {
+  if (await userModel.isUserExists(userId)) {
+    const result = await userModel.findOne({ userId }, { orders: 1 });
+    return result;
+  }
 };
 export const userServices = {
   createUserIntoDB,

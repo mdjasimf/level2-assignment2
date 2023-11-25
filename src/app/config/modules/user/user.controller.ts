@@ -149,8 +149,9 @@ const createOrder = async (req: Request, res: Response) => {
   }
 };
 const getAllorder = async (req: Request, res: Response) => {
+  const { userId } = req.params;
   try {
-    const result = await userServices.getAllOrderFromDB();
+    const result = await userServices.getAllOrderFromDB(userId);
     res.status(200).json({
       success: true,
       message: 'order fetched successfully!',

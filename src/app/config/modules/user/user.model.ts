@@ -2,6 +2,7 @@ import { Schema, model } from 'mongoose';
 import { Address, IUser, Order, UserModels, fullName } from './user.interface';
 import bcrypt from 'bcrypt';
 import config from '../..';
+import { array } from 'zod';
 
 const userFullNameSchema = new Schema<fullName>({
   firstName: {
@@ -65,15 +66,7 @@ const userSchema = new Schema<IUser, UserModels>({
     type: Boolean,
     default: true,
   },
-  hobbies: {
-    type: String,
-    enum: {
-      values: ['cricket', 'football'],
-      message: '{VALUE} is not valid',
-    },
-    required: [true, 'hobbies is require'],
-    trim: true,
-  },
+  hobbies: { type: [String], enum: ['cricket', 'football'], required: true },
   address: userAddressSchema,
   orders: [orderSchema],
 });
