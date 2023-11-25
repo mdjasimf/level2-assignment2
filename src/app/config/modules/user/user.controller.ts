@@ -148,7 +148,23 @@ const createOrder = async (req: Request, res: Response) => {
     });
   }
 };
-
+const getAllorder = async (req: Request, res: Response) => {
+  try {
+    const result = await userServices.getAllOrderFromDB();
+    res.status(200).json({
+      success: true,
+      message: 'order fetched successfully!',
+      data: result,
+    });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (err: any) {
+    res.status(200).json({
+      success: false,
+      message: err.message || 'something went wrong',
+      error: err,
+    });
+  }
+};
 export const userControllers = {
   createUser,
   getAllusers,
@@ -156,4 +172,5 @@ export const userControllers = {
   deleteUser,
   updateUser,
   createOrder,
+  getAllorder,
 };

@@ -48,6 +48,10 @@ const createOrder = async (userId: number, user: IUser) => {
     return result;
   }
 };
+const getAllOrderFromDB = async () => {
+  const result = await userModel.find();
+  return result;
+};
 export const userServices = {
   createUserIntoDB,
   getAllUserFromDB,
@@ -55,4 +59,5 @@ export const userServices = {
   deleteUserFromDB,
   updateUser,
   createOrder,
+  getAllOrderFromDB,
 };
