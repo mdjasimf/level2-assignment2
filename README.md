@@ -18,6 +18,6 @@
 
 - "1.Add New Product in Order"(put)-->http://localhost:5000/api/users/:userId/orders
 
-- "2. Retrieve all orders for a specific user"(get)-->http://localhost:5000/api/users:userId/orders
+- "2. Retrieve all orders for a specific user"(get)-->http://localhost:5000/api/users/:userId/orders
 
 - "3. Calculate Total Price of Orders for a Specific User"(get)-->http://localhost:5000/api/users/:userId/orders/total-price
