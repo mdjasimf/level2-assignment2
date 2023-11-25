@@ -1,8 +1,7 @@
-import { Schema, model } from 'mongoose';
+import mongoose, { Schema, model } from 'mongoose';
 import { Address, IUser, Order, UserModels, fullName } from './user.interface';
 import bcrypt from 'bcrypt';
 import config from '../..';
-import { array } from 'zod';
 
 const userFullNameSchema = new Schema<fullName>({
   firstName: {
@@ -93,4 +92,18 @@ userSchema.statics.isUserExists = async function (userId: number) {
   return existingUser;
 };
 
+// orderSchema.statics.ICalculate = async function (userId: number) {
+//   const stats = await this.aggregate([
+//     {
+//       $match: userId,
+//     },
+//     {
+//       $group: {
+//         _id: '$orders',
+//         totalPrice: { $sum: '$price' },
+//       },
+//     },
+//   ]);
+//   return stats;
+// };
 export const userModel = model<IUser, UserModels>('User', userSchema);

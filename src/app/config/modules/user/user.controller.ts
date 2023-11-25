@@ -4,7 +4,7 @@ import userValidationSchema from './user.validation';
 
 const createUser = async (req: Request, res: Response) => {
   try {
-    const { user: userData } = req.body;
+    const userData = req.body;
     const zodValidData = userValidationSchema.parse(userData);
 
     const result = await userServices.createUserIntoDB(zodValidData);
@@ -96,7 +96,7 @@ const deleteUser = async (req: Request, res: Response) => {
 };
 const updateUser = async (req: Request, res: Response) => {
   try {
-    const { user } = req.body;
+    const user = req.body;
     const userId = req.params.userId;
     const result = await userServices.updateUser(userId, user);
     if (result) {
@@ -123,14 +123,14 @@ const updateUser = async (req: Request, res: Response) => {
 };
 const createOrder = async (req: Request, res: Response) => {
   try {
-    const user = req.body;
+    const order = req.body;
     const userId = req.params.userId;
-    const result = await userServices.createOrder(userId, user);
+    const result = await userServices.createOrder(userId, order);
     if (result) {
       res.status(200).json({
         status: true,
         message: 'User updated successfully',
-        data: result,
+        data: null,
       });
     } else {
       res.status(404).json({
@@ -166,6 +166,24 @@ const getAllorder = async (req: Request, res: Response) => {
     });
   }
 };
+const getCalculateTotalPrice = async (req: Request, res: Response) => {
+  const { userId } = req.params;
+  try {
+    const result = await userServices.getCalculateTotalPriceFromDB(userId);
+    res.status(200).json({
+      success: true,
+      message: 'Total price calculated successfully!',
+      data: result,
+    });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (err: any) {
+    res.status(200).json({
+      success: false,
+      message: err.message || 'something went wrong',
+      error: err,
+    });
+  }
+};
 export const userControllers = {
   createUser,
   getAllusers,
@@ -174,4 +192,5 @@ export const userControllers = {
   updateUser,
   createOrder,
   getAllorder,
+  getCalculateTotalPrice,
 };

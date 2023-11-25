@@ -10,7 +10,10 @@ const createUserIntoDB = async (userData: IUser) => {
 };
 
 const getAllUserFromDB = async () => {
-  const result = await userModel.find({}, { orders: 0, password: 0, __v: 0 });
+  const result = await userModel.find(
+    {},
+    { orders: 0, password: 0, __v: 0, _id: 0 },
+  );
   return result;
 };
 const getSingleUserFromDB = async (userId: number) => {
@@ -55,6 +58,24 @@ const getAllOrderFromDB = async (userId: number) => {
     return result;
   }
 };
+const getCalculateTotalPriceFromDB = async (userId: number) => {
+  if (await userModel.isUserExists(userId)) {
+    const result = await userModel.aggregate([
+      {
+        $unwind: '$orders',
+      },
+      {
+        $group: {
+          _id: null,
+          total: { $sum: { $multiply: ['$orders.price', '$orders.quantity'] } },
+        },
+      },
+    ]);
+    return result;
+  } else {
+    throw new Error('User not found!');
+  }
+};
 export const userServices = {
   createUserIntoDB,
   getAllUserFromDB,
@@ -63,4 +84,5 @@ export const userServices = {
   updateUser,
   createOrder,
   getAllOrderFromDB,
+  getCalculateTotalPriceFromDB,
 };
