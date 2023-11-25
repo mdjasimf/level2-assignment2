@@ -42,7 +42,8 @@ const getAllusers = async (req: Request, res: Response) => {
 const getSingleUser = async (req: Request, res: Response) => {
   try {
     const { userId } = req.params;
-    const result = await userServices.getSingleUserFromDB(userId);
+    const userIdAsNumber = parseInt(userId);
+    const result = await userServices.getSingleUserFromDB(userIdAsNumber);
     if (result) {
       res.json({
         success: true,
@@ -71,8 +72,9 @@ const getSingleUser = async (req: Request, res: Response) => {
 const deleteUser = async (req: Request, res: Response) => {
   try {
     const { userId } = req.params;
-    const result = await userServices.deleteUserFromDB(userId);
-    if (result.deletedCount === 1) {
+    const userIdAsNumber = parseInt(userId);
+    const result = await userServices.deleteUserFromDB(userIdAsNumber);
+    if (result && result.deletedCount === 1) {
       res.json({
         success: true,
         message: 'User deleted successfully!',
@@ -98,7 +100,8 @@ const updateUser = async (req: Request, res: Response) => {
   try {
     const user = req.body;
     const userId = req.params.userId;
-    const result = await userServices.updateUser(userId, user);
+    const userIdAsNumber = parseInt(userId);
+    const result = await userServices.updateUser(userIdAsNumber, user);
     if (result) {
       res.status(200).json({
         status: true,
@@ -125,7 +128,8 @@ const createOrder = async (req: Request, res: Response) => {
   try {
     const order = req.body;
     const userId = req.params.userId;
-    const result = await userServices.createOrder(userId, order);
+    const userIdAsNumber = parseInt(userId);
+    const result = await userServices.createOrder(userIdAsNumber, order);
     if (result) {
       res.status(200).json({
         status: true,
@@ -150,8 +154,10 @@ const createOrder = async (req: Request, res: Response) => {
 };
 const getAllorder = async (req: Request, res: Response) => {
   const { userId } = req.params;
+  const userIdAsNumber = parseInt(userId);
+
   try {
-    const result = await userServices.getAllOrderFromDB(userId);
+    const result = await userServices.getAllOrderFromDB(userIdAsNumber);
     res.status(200).json({
       success: true,
       message: 'order fetched successfully!',
@@ -168,8 +174,10 @@ const getAllorder = async (req: Request, res: Response) => {
 };
 const getCalculateTotalPrice = async (req: Request, res: Response) => {
   const { userId } = req.params;
+  const userIdAsNumber = parseInt(userId);
   try {
-    const result = await userServices.getCalculateTotalPriceFromDB(userId);
+    const result =
+      await userServices.getCalculateTotalPriceFromDB(userIdAsNumber);
     res.status(200).json({
       success: true,
       message: 'Total price calculated successfully!',
