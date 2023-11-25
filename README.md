@@ -1,6 +1,6 @@
 # level2-assignment2
 
-**\*** how to run the locally **\*\***
+# how to run the locally
 
 # mani part:
 
