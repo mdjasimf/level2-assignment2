@@ -69,6 +69,8 @@ const userSchema = new Schema<IUser, UserModels>({
   address: userAddressSchema,
   orders: [orderSchema],
 });
+
+//here is bcrypt(pasword hash)..................
 userSchema.pre('save', async function (next) {
   // eslint-disable-next-line @typescript-eslint/no-this-alias
   const user = this;
@@ -87,23 +89,10 @@ userSchema.pre('find', function (next) {
   next();
 });
 
+//here is statics method............
 userSchema.statics.isUserExists = async function (userId: number) {
   const existingUser = await userModel.findOne({ userId });
   return existingUser;
 };
 
-// orderSchema.statics.ICalculate = async function (userId: number) {
-//   const stats = await this.aggregate([
-//     {
-//       $match: userId,
-//     },
-//     {
-//       $group: {
-//         _id: '$orders',
-//         totalPrice: { $sum: '$price' },
-//       },
-//     },
-//   ]);
-//   return stats;
-// };
 export const userModel = model<IUser, UserModels>('User', userSchema);

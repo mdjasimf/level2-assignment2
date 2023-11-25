@@ -1,6 +1,7 @@
 import { IUser } from './user.interface';
 import { userModel } from './user.model';
 
+//user create section....
 const createUserIntoDB = async (userData: IUser) => {
   if (await userModel.isUserExists(userData.userId)) {
     throw new Error('user allready exists');
@@ -8,7 +9,7 @@ const createUserIntoDB = async (userData: IUser) => {
   const result = await userModel.create(userData);
   return result;
 };
-
+//get all user section...........
 const getAllUserFromDB = async () => {
   const result = await userModel.find(
     {},
@@ -16,6 +17,8 @@ const getAllUserFromDB = async () => {
   );
   return result;
 };
+
+//get single user section...................
 const getSingleUserFromDB = async (userId: number) => {
   if (await userModel.isUserExists(userId)) {
     const result = await userModel.findOne(
@@ -26,12 +29,15 @@ const getSingleUserFromDB = async (userId: number) => {
     return result;
   }
 };
+//delete user section...........
 const deleteUserFromDB = async (userId: number) => {
   if (await userModel.isUserExists(userId)) {
     const result = await userModel.deleteOne({ userId });
     return result;
   }
 };
+
+//update user Selection...........
 const updateUser = async (userId: number, user: IUser) => {
   if (await userModel.isUserExists(userId)) {
     const result = await userModel.findOneAndUpdate(
@@ -42,6 +48,7 @@ const updateUser = async (userId: number, user: IUser) => {
     return result;
   }
 };
+//create order section..................
 const createOrder = async (userId: number, user: IUser) => {
   if (await userModel.isUserExists(userId)) {
     const result = await userModel.findOneAndUpdate(
@@ -52,12 +59,14 @@ const createOrder = async (userId: number, user: IUser) => {
     return result;
   }
 };
+//get all order section.................
 const getAllOrderFromDB = async (userId: number) => {
   if (await userModel.isUserExists(userId)) {
     const result = await userModel.findOne({ userId }, { orders: 1 });
     return result;
   }
 };
+//calculate total order section...............
 const getCalculateTotalPriceFromDB = async (userId: number) => {
   if (await userModel.isUserExists(userId)) {
     const result = await userModel.aggregate([
