@@ -8,7 +8,7 @@
 
 - "2. Retrieve a list of all users"(get)-->http://localhost:5000/api/users
 
-- "3. Retrieve a specific user by ID"(get)-->http://localhost:5000/api/user/:userId
+- "3. Retrieve a specific user by ID"(get)-->http://localhost:5000/api/users/:userId
 
 - "4. Update user information(put)"-->http://localhost:5000/api/users/:userId
 
